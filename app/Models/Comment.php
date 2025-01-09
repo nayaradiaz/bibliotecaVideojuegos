@@ -6,22 +6,22 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class Comentario extends Model
+class Comment extends Model
 {
     public function up()
     {
-        Schema::create('comentarios', function (Blueprint $table) {
+        Schema::create('comments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('videojuego_id')->constrained()->onDelete('cascade');
+            $table->foreignId('videogame_id')->constrained()->onDelete('cascade');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->integer('puntuacion')->min(1)->max(5);
-            $table->text('comentario')->nullable();
+            $table->integer('punctuation')->min(1)->max(5);
+            $table->text('comment')->nullable();
             $table->timestamps();
         });
     }
-    public function videojuego()
+    public function videogame()
     {
-        return $this->belongsTo(Videojuego::class);
+        return $this->belongsTo(Videogame::class);
     }
 
     public function user()

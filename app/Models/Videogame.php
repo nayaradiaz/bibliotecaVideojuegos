@@ -6,15 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class Videojuego extends Model
+class Videogame extends Model
 {
     public function up()
     {
-        Schema::create('videojuegos', function (Blueprint $table) {
+        Schema::create('videogames', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre');
-            $table->text('descripcion');
-            $table->string('caratula')->nullable();
+            $table->string('name');
+            $table->text('description');
+            $table->string('cover')->nullable();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
