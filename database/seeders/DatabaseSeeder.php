@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use App\Models\Videogame;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -21,8 +22,10 @@ class DatabaseSeeder extends Seeder
         ]);
         */
         $this->call([
-            UserSeeder::class
+            UserSeeder::class,
            // RoleSeeder::class
+           VideogameSeeder::class
+
         ]);
     }
 }
