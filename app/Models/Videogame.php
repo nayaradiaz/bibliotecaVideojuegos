@@ -4,13 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 class Videogame extends Model
 {
     use HasFactory;
-
     /**
      * The attributes that are mass assignable.
      *
@@ -21,14 +21,13 @@ class Videogame extends Model
         'description',
         'cover',
     ];
-    public function up()
-    {
-        Schema::create('videogames', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->text('description');
-            $table->string('cover')->nullable();
-            $table->timestamps();
-        });
-    }
+   /**
+    * Get the user that owns the Videogame
+    *
+    * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+    */
+   public function user(): BelongsTo
+   {
+       return $this->belongsTo(User::class);
+   }
 }
