@@ -15,19 +15,24 @@ class VideogameSeeder extends Seeder
 
             'name'=>'Valorant',
             'description'=> 'Descripcion para Juego 1',
-            'cover'=>'https://placehold.co/75x75'
+            'cover'=>'https://placehold.co/75x75',
+            'user_id'=> '1'
         ]);
         DB::table('videogames')->insert([
 
             'name'=>'Call of Duty',
             'description'=> 'Descripcion para Juego 2',
-            'cover'=>'https://placehold.co/75x75'
+            'cover'=>'https://placehold.co/75x75',
+            'user_id'=> '1'
+
         ]);
         DB::table('videogames')->insert([
 
             'name'=>'Warzone',
             'description'=> 'Descripcion para Juego 3',
-            'cover'=>'https://placehold.co/75x75'
+            'cover'=>'https://placehold.co/75x75',
+            'user_id'=> '2'
+
         ]);
     }
 }

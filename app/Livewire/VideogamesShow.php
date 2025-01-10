@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Videogame;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\Features\SupportFileUploads\WithFileUploads;
 use Livewire\WithFileUploads as LivewireWithFileUploads;
@@ -17,7 +18,9 @@ class VideogamesShow extends Component
     public $description;
     public $cover;
     public $id;
+    public $user_id;
     public $editinggame = null;
+    public $users;
     public function render()
     {
         return view('livewire.videogames-show');
@@ -36,8 +39,9 @@ class VideogamesShow extends Component
         Videogame::Create(
             [
                 'name' => $this->name,
-                'description' => $this->description
-            ]
+                'description' => $this->description,
+                'user_id'=>auth()->user()->id,
+                ]
         );
 
         $this->clearFields();
