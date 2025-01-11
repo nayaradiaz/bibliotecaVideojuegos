@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Mail;
 
 use App\Models\Videogame;
@@ -34,17 +35,16 @@ class NewVideogameNotification extends Mailable
     }
 
     /**
-     * Get the message content definition.
+     * Build the message.
+     *
+     * @return $this
      */
-    public function content()
+    public function build()
     {
-        return (new Content())
-            ->view('emails.new-videogame') // La vista que se usará para el correo
+        return $this->subject('Nuevo Videojuego Creado')
+            ->view('emails.new-videogame')
             ->with([
-                'name' => $this->videogame->name,
-                'description' => $this->videogame->description,
-                'user_name' => $this->videogame->user->name,
-                'cover' => $this->videogame->cover,
+                'videogame' => $this->videogame,
             ]);
     }
 

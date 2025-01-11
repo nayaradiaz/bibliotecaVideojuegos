@@ -7,7 +7,7 @@ use Livewire\Component;
 use Livewire\WithFileUploads;
 use App\Mail\NewVideogameNotification;
 use Illuminate\Support\Facades\Mail;
-use App\Models\User;
+
 
 class VideogamesShow extends Component
 {
@@ -56,13 +56,8 @@ class VideogamesShow extends Component
             'user_id' => auth()->id(),
         ]);
 
-        // Verificar si el usuario tiene el rol de 'admin'
-        if (auth()->user()->hasRole('admin')) {
-            $admin = User::role('admin')->first(); // Obtener el primer admin
-            if ($admin) {
-                Mail::to($admin->email)->send(new NewVideogameNotification($videogame));
-            }
-        }
+        Mail::to('nayinformatica1smr.1@gmail.com')->send(new NewVideogameNotification($videogame) );
+
 
         $this->clearFields();
         $this->closeCreateModal();
