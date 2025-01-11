@@ -20,6 +20,7 @@ class Videogame extends Model
         'name',
         'description',
         'cover',
+        'user_id',
     ];
    /**
     * Get the user that owns the Videogame
