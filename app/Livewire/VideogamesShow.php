@@ -5,10 +5,9 @@ namespace App\Livewire;
 use App\Models\Videogame;
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use App\Mail\NewVideogameNotification;
 use App\Models\Comment;
 use Illuminate\Support\Facades\Mail;
-
+use App\Mail\NewVideogameNotification;
 
 class VideogamesShow extends Component
 {
@@ -51,7 +50,7 @@ class VideogamesShow extends Component
         ]);
 
         // Guardar imagen si existe
-        $coverPath = $this->photo ? $this->photo->store('covers', 'public') : 'images/default_cover.jpg';
+        $coverPath = $this->uploadCoverImage();
 
         // Crear el videojuego
         $videogame = Videogame::create([
@@ -61,8 +60,8 @@ class VideogamesShow extends Component
             'user_id' => auth()->id(),
         ]);
 
-        //Mail::to('nayinformatica1smr.1@gmail.com')->send(new NewVideogameNotification($videogame) );
-
+        // Send email notification (uncomment if required)
+        // Mail::to('nayinformatica1smr.1@gmail.com')->send(new NewVideogameNotification($videogame));
 
         $this->clearFields();
         $this->closeCreateModal();
@@ -83,7 +82,7 @@ class VideogamesShow extends Component
     public function openGameDetails($gameId)
     {
         $this->modalRating = false;
-        $this->selectedGame = Videogame::find($gameId);
+        $this->selectedGame = Videogame::findOrFail($gameId);
         $this->name = $this->selectedGame->name;
         $this->description = $this->selectedGame->description;
         $this->cover = $this->selectedGame->cover;
@@ -104,7 +103,7 @@ class VideogamesShow extends Component
         ]);
 
         // Si hay una nueva imagen, la guardamos, si no usamos la anterior
-        $coverPath = $this->photo ? $this->photo->store('covers', 'public') : $this->selectedGame->cover;
+        $coverPath = $this->photo ? $this->uploadCoverImage() : $this->selectedGame->cover;
 
         // Actualizamos los detalles del videojuego
         $this->selectedGame->update([
@@ -133,16 +132,12 @@ class VideogamesShow extends Component
         }
     }
 
-
-
-
     public function clearFields()
     {
         $this->name = '';
         $this->description = '';
         $this->photo = null;
     }
-
 
     public function openRatingModal($gameId)
     {
@@ -154,31 +149,51 @@ class VideogamesShow extends Component
 
     public function closeRatingModal()
     {
-        $this->modalRating = false;
-        $this->rating = null;
-        $this->comment = null;
+        $this->modalRating = false;  // Cerrar modal
+        $this->reset(['rating', 'comment', 'selectedGameId', 'modalRating']);
     }
 
     public function submitRating()
     {
-        // Validar los datos
-        $this->validate([
-            'rating' => 'required|integer|min:1|max:5',
-            'comment' => 'nullable|string|max:500',
-        ]);
+        // Verificar que se haya seleccionado una puntuación
+        if (!$this->rating) {
+            session()->flash('error', 'Debes seleccionar una puntuación.');
+            return;
+        }
 
-        // Crear el comentario con la valoración
+        // Verificar si el usuario ya ha valorado este videojuego
+        $existingRating = Comment::where('user_id', auth()->id())
+            ->where('videogame_id', $this->selectedGameId)
+            ->first();
+
+        if ($existingRating) {
+            // Mostrar error si ya se valoró el videojuego
+            session()->flash('error', 'Ya has valorado este videojuego.');
+            return;
+        }
+
+        // Crear la nueva valoración
         Comment::create([
-            'videogame_id' => $this->selectedGameId,
             'user_id' => auth()->id(),
+            'videogame_id' => $this->selectedGameId,
             'punctuation' => $this->rating,
-            'comment' => $this->comment,
+            'comment' => $this->comment, // El comentario es opcional
         ]);
 
-        // Cerrar el modal después de guardar
+        // Cerrar modal y resetear valores después de éxito
         $this->closeRatingModal();
-
-        // Notificación de éxito o redirección
         session()->flash('message', 'Valoración añadida con éxito.');
+
+        // Trigger browser event
+        $this->dispatchBrowserEvent('flash-message'); // Esto se usa para mostrar un mensaje de éxito en el frontend
+        $this->getGames(); // Refrescar la lista de juegos
+    }
+
+
+
+    // Helper function to handle file upload for cover image
+    private function uploadCoverImage()
+    {
+        return $this->photo ? $this->photo->store('covers', 'public') : 'images/default_cover.jpg';
     }
 }
