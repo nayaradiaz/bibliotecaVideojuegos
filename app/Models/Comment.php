@@ -8,17 +8,13 @@ use Illuminate\Support\Facades\Schema;
 
 class Comment extends Model
 {
-    public function up()
-    {
-        Schema::create('comments', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('videogame_id')->constrained()->onDelete('cascade');
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->integer('punctuation')->min(1)->max(5);
-            $table->text('comment')->nullable();
-            $table->timestamps();
-        });
-    }
+    protected $fillable = [
+        'videogame_id',
+        'user_id',
+        'punctuation',
+        'comment',
+    ];
+
     public function videogame()
     {
         return $this->belongsTo(Videogame::class);
@@ -27,5 +23,9 @@ class Comment extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+    public function setPunctuationAttribute($value)
+    {
+        $this->attributes['punctuation'] = max(1, min(5, $value)); // Asegura que la puntuación esté entre 1 y 5
     }
 }

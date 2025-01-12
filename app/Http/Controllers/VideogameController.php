@@ -12,13 +12,12 @@ class VideogameController extends Controller
         $videogames = Videogame::all();
         return view('dashboard', compact('videogames'));
     }
+   
 
-    
 
+    // Enviar correo al Admin
+    // \Mail::to('admin@example.com')->send(new videogameCreado($videogame));
 
-        // Enviar correo al Admin
-       // \Mail::to('admin@example.com')->send(new videogameCreado($videogame));
+    //return redirect()->route('videogames.index');
 
-        //return redirect()->route('videogames.index');
-    
 }

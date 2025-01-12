@@ -9,14 +9,18 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+
+    public function up()
     {
         Schema::create('comments', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('videogame_id')->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->integer('punctuation')->unsigned(); // Definir como entero sin signo (para que no sea negativo)
+            $table->text('comment')->nullable();
             $table->timestamps();
         });
     }
-
     /**
      * Reverse the migrations.
      */

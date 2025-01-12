@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\VideogameController;
 
 // Route::get('/dashboard', [DashboardController::class, 'index'])
 //     ->middleware(['auth'])
@@ -12,6 +13,9 @@ use App\Http\Controllers\DashboardController;
 Route::view('/', 'main-view');
 
 
+
+//Route::get('/videogame-comments', [VideogameController::class, 'index'])->name('videogame-comments');
+
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
@@ -20,4 +24,4 @@ Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

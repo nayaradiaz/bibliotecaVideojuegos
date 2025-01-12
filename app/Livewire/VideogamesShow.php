@@ -6,6 +6,7 @@ use App\Models\Videogame;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use App\Mail\NewVideogameNotification;
+use App\Models\Comment;
 use Illuminate\Support\Facades\Mail;
 
 
@@ -21,6 +22,10 @@ class VideogamesShow extends Component
     public $name;
     public $description;
     public $cover;
+    public $modalRating = false;
+    public $rating = null;
+    public $comment = null;
+    public $selectedGameId = null;  // El videojuego que está siendo valorado
 
     public function render()
     {
@@ -77,6 +82,7 @@ class VideogamesShow extends Component
 
     public function openGameDetails($gameId)
     {
+        $this->modalRating = false;
         $this->selectedGame = Videogame::find($gameId);
         $this->name = $this->selectedGame->name;
         $this->description = $this->selectedGame->description;
@@ -135,5 +141,44 @@ class VideogamesShow extends Component
         $this->name = '';
         $this->description = '';
         $this->photo = null;
+    }
+
+
+    public function openRatingModal($gameId)
+    {
+        $this->modalDetails = false;
+
+        $this->selectedGameId = $gameId;
+        $this->modalRating = true;  // Abrir el modal
+    }
+
+    public function closeRatingModal()
+    {
+        $this->modalRating = false;
+        $this->rating = null;
+        $this->comment = null;
+    }
+
+    public function submitRating()
+    {
+        // Validar los datos
+        $this->validate([
+            'rating' => 'required|integer|min:1|max:5',
+            'comment' => 'nullable|string|max:500',
+        ]);
+
+        // Crear el comentario con la valoración
+        Comment::create([
+            'videogame_id' => $this->selectedGameId,
+            'user_id' => auth()->id(),
+            'punctuation' => $this->rating,
+            'comment' => $this->comment,
+        ]);
+
+        // Cerrar el modal después de guardar
+        $this->closeRatingModal();
+
+        // Notificación de éxito o redirección
+        session()->flash('message', 'Valoración añadida con éxito.');
     }
 }
