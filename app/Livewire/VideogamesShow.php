@@ -80,23 +80,38 @@ class VideogamesShow extends Component
     {
         $this->modalCreate = false;
     }
-
     public function openGameDetails($gameId)
     {
-        $this->comments = [];
-        // Cargar los comentarios del videojuego seleccionado
-        // $this->comments = Comment::where('videogame_id', $gameId)
-        //     ->with('user') // Relacionar con el usuario que dejó el comentario
-        //     ->get();
-        $this->comments = $this->selectedGame->comments()->with('user')->get();
-
         $this->modalRating = false;
-        $this->selectedGame = Videogame::findOrFail($gameId);
+        $this->selectedGame = Videogame::with('comments')->find($gameId);  // Cargar los comentarios también
+    
+        if (!$this->selectedGame) {
+            // Si no se encuentra el juego, manejar el error apropiadamente.
+            session()->flash('error', 'Videojuego no encontrado.');
+            return;
+        }
+    
         $this->name = $this->selectedGame->name;
         $this->description = $this->selectedGame->description;
         $this->cover = $this->selectedGame->cover;
         $this->modalDetails = true;
     }
+    // public function openGameDetails($gameId)
+    // {
+    //     $this->comments = [];
+    //     // Cargar los comentarios del videojuego seleccionado
+    //     // $this->comments = Comment::where('videogame_id', $gameId)
+    //     //     ->with('user') // Relacionar con el usuario que dejó el comentario
+    //     //     ->get();
+    //     $this->comments = $this->selectedGame->comments()->with('user')->get();
+
+    //     $this->modalRating = false;
+    //     $this->selectedGame = Videogame::findOrFail($gameId);
+    //     $this->name = $this->selectedGame->name;
+    //     $this->description = $this->selectedGame->description;
+    //     $this->cover = $this->selectedGame->cover;
+    //     $this->modalDetails = true;
+    // }
 
     public function closeDetailsModal()
     {
