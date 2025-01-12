@@ -4,15 +4,15 @@
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <!-- Botón para abrir el modal de crear videojuego -->
-                    <button type="button" class="mr-3 mb-4 text-sm bg-blue-500 hover:bg-blue-700 text-white py-1 px-2 rounded focus:outline-none focus:shadow-outline"
+                    <button type="button" class="mr-3 mb-4 text-sm bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                         wire:click="openCreateModal">Crear Videojuego</button>
 
                     <table class="w-full text-md bg-white rounded mb-4 text-center">
                         <thead class="text-white">
                             <tr class="border-b bg-indigo-500">
-                                <th class="p-3 px-5">Name</th>
-                                <th class="p-3 px-5">Description</th>
-                                <th class="p-3 px-5">Cover</th>
+                                <th class="p-3 px-5">Nombre</th>
+                                <th class="p-3 px-5">Descripcion</th>
+                                <th class="p-3 px-5">Portada</th>
                             </tr>
                         </thead>
                         <tbody class="flex-1 sm:flex-none">
@@ -20,7 +20,7 @@
                             <tr class="border-b hover:bg-indigo-100 bg-gray-100 cursor-pointer" wire:click="openGameDetails({{ $game->id }})">
                                 <td class="p-3 px-5">{{ $game->name }}</td>
                                 <td class="p-3 px-5">{{ $game->description }}</td>
-                                <td class="p-3 px-5">
+                                <td class="p-3 px-5 flex justify-center	">
                                     @if($game->cover && file_exists(public_path('storage/' . $game->cover)))
                                     <img src="{{ asset('storage/' . $game->cover) }}" alt="cover" width="80">
                                     @else

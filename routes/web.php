@@ -8,7 +8,10 @@ use App\Http\Controllers\DashboardController;
 //     ->name('dashboard');
 
 //Route::view('/', 'welcome');
-Route::redirect('/','dashboard');
+//Route::redirect('/','dashboard');
+Route::view('/', 'main-view');
+
+
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
