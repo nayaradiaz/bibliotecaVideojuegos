@@ -14,11 +14,14 @@ return new class extends Migration
     {
         Schema::create('comments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('videogame_id')->constrained()->onDelete('cascade');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->integer('punctuation')->unsigned(); // Definir como entero sin signo (para que no sea negativo)
+            $table->foreignId('videogame_id')->constrained()->onDelete('cascade');
+            $table->integer('punctuation');
             $table->text('comment')->nullable();
             $table->timestamps();
+
+            // Restricción para que un usuario solo pueda valorar una vez por videojuego
+            $table->unique(['user_id', 'videogame_id']);
         });
     }
     /**

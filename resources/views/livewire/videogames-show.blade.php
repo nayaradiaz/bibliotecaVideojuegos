@@ -53,6 +53,17 @@
                 <div class="w-full">
                     <div class="m-8 my-20 max-w-[400px] mx-auto">
                         <h1 class="mb-4 text-3xl font-extrabold">Crear Videojuego</h1>
+                        @if (session()->has('error'))
+                        <div class="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg">
+                            {{ session('error') }}
+                        </div>
+                        @endif
+
+                        @if (session()->has('message'))
+                        <div class="p-4 mb-4 text-sm text-green-700 bg-green-100 rounded-lg">
+                            {{ session('message') }}
+                        </div>
+                        @endif
                         <form wire:submit.prevent="createVideogame">
                             <div class="space-y-4">
                                 <label for="name">Título</label>
@@ -92,6 +103,17 @@
                 <div class="w-full">
                     <div class="m-8 my-20 max-w-[400px] mx-auto">
                         <h1 class="mb-4 text-3xl font-extrabold">Detalles del Videojuego</h1>
+                        @if (session()->has('error'))
+                        <div class="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg">
+                            {{ session('error') }}
+                        </div>
+                        @endif
+
+                        @if (session()->has('message'))
+                        <div class="p-4 mb-4 text-sm text-green-700 bg-green-100 rounded-lg">
+                            {{ session('message') }}
+                        </div>
+                        @endif
                         <form wire:submit.prevent="editGame">
                             <div class="space-y-4">
                                 <div>
@@ -152,13 +174,24 @@
                 <div class="w-full">
                     <div class="m-8 my-20 max-w-[400px] mx-auto">
                         <h1 class="mb-4 text-3xl font-extrabold">Añadir Valoración</h1>
+                        @if (session()->has('error'))
+                        <div class="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg">
+                            {{ session('error') }}
+                        </div>
+                        @endif
+
+                        @if (session()->has('message'))
+                        <div class="p-4 mb-4 text-sm text-green-700 bg-green-100 rounded-lg">
+                            {{ session('message') }}
+                        </div>
+                        @endif
                         <form wire:submit.prevent="submitRating">
                             <div class="space-y-4">
                                 <!-- Puntuación en formato de estrellas -->
                                 <label for="rating">Puntuación</label>
                                 <div class="flex space-x-1">
                                     @for ($i = 1; $i <= 5; $i++)
-                                        <label>
+                                        <label class="mb-4">
                                         <input type="radio" wire:model="rating" value="{{ $i }}" class="hidden" />
                                         <svg class="w-6 h-6 {{ $i <= $rating ? 'text-yellow-500' : 'text-gray-300' }}" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                                             <path d="M9.049 3.5a1 1 0 011.902 0l1.133 3.455a1 1 0 00.95.69h3.626a1 1 0 01.586 1.795l-2.928 2.136a1 1 0 00-.364 1.118l1.134 3.456a1 1 0 01-1.535 1.118l-2.928-2.136a1 1 0 00-1.18 0l-2.928 2.136a1 1 0 01-1.535-1.118l1.134-3.456a1 1 0 00-.364-1.118L4.26 9.44A1 1 0 015.845 7.645h3.626a1 1 0 00.95-.69l1.133-3.455z" />
