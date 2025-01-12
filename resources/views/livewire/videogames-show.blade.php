@@ -7,6 +7,39 @@
                     <button type="button" class="mr-3 mb-4 text-sm bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                         wire:click="openCreateModal">Crear Videojuego</button>
                     <!-- En tu vista donde se listan los videojuegos -->
+                    <div>
+                        <!-- Select para elegir el videojuego -->
+                        <label for="game_id">Selecciona un videojuego:</label>
+                        <select wire:model="selectedGameId" id="game_id" class="w-full bg-gray-100 border border-gray-300 rounded-md p-2">
+                            <option value="">Seleccionar un videojuego</option>
+                            @foreach ($videogames as $game)
+                            <option value="{{ $game->id }}">{{ $game->name }}</option>
+                            @endforeach
+                        </select>
+
+                        @if($selectedGameId)
+                        <!-- Mostrar la tabla con los comentarios del videojuego seleccionado -->
+                        <h2 class="mt-4 text-xl font-bold">Comentarios de {{ $selectedGameName }}</h2>
+                        <table class="mt-4 w-full text-md bg-white rounded mb-4 text-center">
+                            <thead class="bg-indigo-500 text-white">
+                                <tr>
+                                    <th class="p-3 px-5">Usuario</th>
+                                    <th class="p-3 px-5">Comentario</th>
+                                    <th class="p-3 px-5">Puntuación</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($comments as $comment)
+                                <tr class="border-b hover:bg-indigo-100">
+                                    <td class="p-3 px-5">{{ $comment->user->name }}</td>
+                                    <td class="p-3 px-5">{{ $comment->comment }}</td>
+                                    <td class="p-3 px-5">{{ $comment->punctuation }}</td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                        @endif
+                    </div>
 
 
                     <table class="w-full text-md bg-white rounded mb-4 text-center">

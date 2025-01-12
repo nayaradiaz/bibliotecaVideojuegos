@@ -25,6 +25,8 @@ class VideogamesShow extends Component
     public $rating = null;
     public $comment = null;
     public $selectedGameId = null;  // El videojuego que está siendo valorado
+    public $selectedGameName;  // Nombre del videojuego seleccionado
+    public $comments = [];  // Almacenar los comentarios
 
     public function render()
     {
@@ -81,6 +83,13 @@ class VideogamesShow extends Component
 
     public function openGameDetails($gameId)
     {
+        $this->comments = [];
+        // Cargar los comentarios del videojuego seleccionado
+        // $this->comments = Comment::where('videogame_id', $gameId)
+        //     ->with('user') // Relacionar con el usuario que dejó el comentario
+        //     ->get();
+        $this->comments = $this->selectedGame->comments()->with('user')->get();
+
         $this->modalRating = false;
         $this->selectedGame = Videogame::findOrFail($gameId);
         $this->name = $this->selectedGame->name;
@@ -184,8 +193,6 @@ class VideogamesShow extends Component
         $this->closeRatingModal();
         session()->flash('message', 'Valoración añadida con éxito.');
 
-        // Trigger browser event
-        $this->dispatchBrowserEvent('flash-message'); // Esto se usa para mostrar un mensaje de éxito en el frontend
         $this->getGames(); // Refrescar la lista de juegos
     }
 
@@ -195,5 +202,21 @@ class VideogamesShow extends Component
     private function uploadCoverImage()
     {
         return $this->photo ? $this->photo->store('covers', 'public') : 'images/default_cover.jpg';
+    }
+
+
+
+
+    public function updatedSelectedGameId($gameId)
+    {
+        // Cuando se seleccione un videojuego, obtener los comentarios
+        if ($gameId) {
+            $game = Videogame::with('comments.user')->find($gameId);
+            $this->selectedGameName = $game->name;
+            $this->comments = $game->comments;
+            $this->rating=$game->rating;
+        } else {
+            $this->comments = [];
+        }
     }
 }
