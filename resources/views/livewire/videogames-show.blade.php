@@ -67,7 +67,7 @@
                                     </td>
                                     <td class="p-3 px-5">
                                         <!-- Botón para abrir el modal de detalles -->
-                                        <button type="button" class="mr-3 mb-4 text-sm bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                                        <button type="button" class="mr-3 mb-4 text-sm bg-yellow-500 hover:bg-yellow-700 text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                                             wire:click="openGameDetails({{ $game->id }})">Ver Detalles</button>
 
                                         <!-- Botón para abrir el modal de añadir valoración -->
