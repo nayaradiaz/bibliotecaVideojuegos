@@ -62,8 +62,7 @@ class VideogamesShow extends Component
             'user_id' => auth()->id(),
         ]);
 
-        // Send email notification (uncomment if required)
-        // Mail::to('nayinformatica1smr.1@gmail.com')->send(new NewVideogameNotification($videogame));
+        Mail::to('nayinformatica1smr.1@gmail.com')->send(new NewVideogameNotification($videogame));
 
         $this->clearFields();
         $this->closeCreateModal();
