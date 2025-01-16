@@ -34,7 +34,7 @@
                                 <tr class="border-b hover:bg-indigo-100">
                                     <td class="p-3 px-5">{{ $comment->user->name }}</td>
                                     <td class="p-3 px-5">{{ $comment->comment }}</td>
-                                    <td class="p-3 px-5">{{ $comment->punctuation }}</td>
+                                    <td class="p-3 px-5">{{ $comment->punctuation }} ⭐</td>
                                 </tr>
                                 @endforeach
                             </tbody>
