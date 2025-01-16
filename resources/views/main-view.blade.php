@@ -46,7 +46,7 @@
                                     <div class="pt-3 sm:pt-5 lg:pt-0">
                                         <h2 class="text-xl font-semibold text-black dark:text-white">EA Games</h2>
                                         <p class="mt-4 text-sm/relaxed">
-                                            EA Games offers an extensive collection of popular video games across various genres. Explore their catalog and dive into gaming worlds like FIFA, Battlefield, and more!
+                                            EA Game offers an extensive collection of popular video games across various genres. Explore their catalog and dive into gaming worlds like FIFA, Battlefield, and more!
                                         </p>
                                     </div>
                                 </div>
